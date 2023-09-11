@@ -1,6 +1,11 @@
 <?php
 
+
 use Illuminate\Support\Facades\Route;
+
+// Controllers
+use App\Http\Controllers\Guest\MainController;
+use App\Http\Controllers\Guest\BookController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,24 +18,29 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    $students = [
-        'Marco',
-        'Gino',
-        'Claudia',
-    ];
+Route::get('/', [MainController::class, 'index'])
+        ->name('home');
 
-    $data = compact('students');
+// ----------------------------------------------
 
-    // dd($data);
+// /comics/X
+Route::get('/comics/{index}', [MainController::class, 'singleComic'])
+        ->name('comics-show');
 
-    return view('home', $data);
+// /comics?index=X
+// Route::get('/comics', function () {
+//     $comicIndex = $_GET['index'];
 
-    // return view('home', [
-    //     'students' => $students
-    // ]);
-});
+//     $comics = config('comics');
 
-Route::get('/contatti', function () {
-    return view('contact');
-});
+//     $comic = $comics[$comicIndex];
+
+//     // dd($comics[$comicIndex]);
+
+//     return view('show-comic', compact('comic'));
+// })->name('comics-show');
+
+// ----------------------------------------------
+
+Route::get('/books', [BookController::class, 'index'])->name('books.index');
+Route::get('/books/{id}', [BookController::class, 'show'])->name('books.show');
